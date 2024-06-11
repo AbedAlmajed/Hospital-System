@@ -6,7 +6,7 @@ This project is a simple Patients Management System implemented in HTML, CSS, an
 
 ## Live Demo
 
-[Live Demo](#) 
+[Live Demo](https://abedalmajed.github.io/Hospital-System/) 
 
 
 ## Features

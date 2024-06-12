@@ -10,12 +10,13 @@ window.addEventListener("load", function() {
 });
 
 // Rest of your code remains unchanged
-function Patients(name, password, Date, Gender, Chronic) {
+function Patients(name, password, Date, Gender,phone, Chronic) {
     this.name = name;
     this.password = password;
     this.Date = Date;
     this.Gender = Gender;
     this.Chronic = Chronic;
+    this.phone=phone;
 }
 
 document.getElementById("btn").addEventListener("click", function (e) {
@@ -25,15 +26,53 @@ document.getElementById("btn").addEventListener("click", function (e) {
     let password = document.getElementById("password").value;
     let date = document.getElementById("dob").value;
     let gender = document.getElementById("gender").value;
+    let phone = document.getElementById("phone").value;
+
     let chronicDisease = document.getElementById("chronic-disease").value;
 
-    let object = new Patients(name, password, date, gender, chronicDisease);
+
+     // Regular expressions for validation
+     var usernameRegex = /^\S+$/;
+     var passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+     var birthdayRegex = /^\d{4}-\d{2}-\d{2}$/;
+    // var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     var phoneRegex = /^07\d{8}$/;
+ 
+     // Validation checks
+     var isValid = true;
+     if (!usernameRegex.test(name)) {
+         isValid = false;
+         alert("Username must not contain spaces.");
+     }
+     if (!passwordRegex.test(password)) {
+         isValid = false;
+         alert("Password must be at least 8 characters long and contain at least one number, uppercase letter, and special character.");
+     }
+     if (!birthdayRegex.test(date)) {
+         isValid = false;
+         alert("Please enter a valid date of birth in the format YYYY-MM-DD.");
+     }
+    //  if (!emailRegex.test(email)) {
+    //      isValid = false;
+    //      alert("Please enter a valid email address.");
+    //  }
+     if (!phoneRegex.test(phone)) {
+         isValid = false;
+         alert("Phone number must be 10 digits starting with 07.");
+     }
+ 
+     // If all fields are valid, proceed with form submission
+     if (isValid) {
+        let object = new Patients(name, password, date, gender,phone, chronicDisease);
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
     users.push(object);
     localStorage.setItem("users", JSON.stringify(users));
 
     createCard(object);
+     }
+
+   
 });
 
 function createCard(patient) {
@@ -54,6 +93,9 @@ function createCard(patient) {
     let genderPara = document.createElement("p");
     genderPara.innerHTML = "Gender: " + patient.Gender;
 
+    let phonePara = document.createElement("p");
+    phonePara.innerHTML = "Phone: " + patient.phone;
+
     let chronicPara = document.createElement("p");
     chronicPara.innerHTML = "Chronic Disease: " + patient.Chronic;
 
@@ -66,6 +108,7 @@ cardDiv.appendChild(userImage);
     cardDiv.appendChild(datePara);
     cardDiv.appendChild(genderPara);
     cardDiv.appendChild(chronicPara);
+    cardDiv.appendChild(phonePara);
 
     cardContainer.appendChild(cardDiv);
     document.getElementById("form").reset();//to clear the form

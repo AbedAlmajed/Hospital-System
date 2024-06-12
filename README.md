@@ -14,6 +14,7 @@ This project is a simple Patients Management System implemented in HTML, CSS, an
 - Add new patients with details like full name, password, date of birth, gender, and chronic disease.
 - Display added patients as cards with their details.
 - Local storage integration to store patient data persistently.
+- Added form validation for username, password, and date of birth.
 
 ## Technologies Used
 

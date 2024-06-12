@@ -10,8 +10,9 @@ window.addEventListener("load", function() {
 });
 
 // Rest of your code remains unchanged
-function Patients(name, password, Date, Gender,phone, Chronic) {
+function Patients(name,email, password, Date, Gender,phone, Chronic) {
     this.name = name;
+    this.email=email;
     this.password = password;
     this.Date = Date;
     this.Gender = Gender;
@@ -22,12 +23,12 @@ function Patients(name, password, Date, Gender,phone, Chronic) {
 document.getElementById("btn").addEventListener("click", function (e) {
     e.preventDefault();
 
-    let name = document.getElementById("full-name").value;
+    let name = document.getElementById("full-name").value.trim();
     let password = document.getElementById("password").value;
     let date = document.getElementById("dob").value;
     let gender = document.getElementById("gender").value;
     let phone = document.getElementById("phone").value;
-
+    let email = document.getElementById("email").value.trim();
     let chronicDisease = document.getElementById("chronic-disease").value;
 
 
@@ -35,7 +36,7 @@ document.getElementById("btn").addEventListener("click", function (e) {
      var usernameRegex = /^\S+$/;
      var passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
      var birthdayRegex = /^\d{4}-\d{2}-\d{2}$/;
-    // var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
      var phoneRegex = /^07\d{8}$/;
  
      // Validation checks
@@ -52,10 +53,10 @@ document.getElementById("btn").addEventListener("click", function (e) {
          isValid = false;
          alert("Please enter a valid date of birth in the format YYYY-MM-DD.");
      }
-    //  if (!emailRegex.test(email)) {
-    //      isValid = false;
-    //      alert("Please enter a valid email address.");
-    //  }
+     if (!emailRegex.test(email)) {
+         isValid = false;
+         alert("Please enter a valid email address.");
+     }
      if (!phoneRegex.test(phone)) {
          isValid = false;
          alert("Phone number must be 10 digits starting with 07.");
@@ -63,7 +64,7 @@ document.getElementById("btn").addEventListener("click", function (e) {
  
      // If all fields are valid, proceed with form submission
      if (isValid) {
-        let object = new Patients(name, password, date, gender,phone, chronicDisease);
+        let object = new Patients(name, email,password, date, gender,phone, chronicDisease);
 
     let users = JSON.parse(localStorage.getItem("users")) || [];
     users.push(object);
@@ -83,6 +84,9 @@ function createCard(patient) {
 
     let namePara = document.createElement("p");
     namePara.innerHTML = "Name: " + patient.name;
+
+    let emailPara = document.createElement("p");
+    emailPara.innerHTML = "Email: " + patient.email;
 
     let passwordPara = document.createElement("p");
     passwordPara.innerHTML = "Password: " + patient.password;
@@ -104,6 +108,7 @@ userImage.setAttribute("src","image/user.png");
 cardDiv.appendChild(userImage);
 
     cardDiv.appendChild(namePara);
+    cardDiv.appendChild(emailPara);
     cardDiv.appendChild(passwordPara);
     cardDiv.appendChild(datePara);
     cardDiv.appendChild(genderPara);
